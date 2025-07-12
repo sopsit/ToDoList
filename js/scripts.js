@@ -3,7 +3,7 @@ const bodyTag = document.querySelector("body");
 const addBtn = document.getElementById("add-btn");
 const todoInput = document.getElementById("addt");
 var counter = 0;
-
+var indexes = [];
 function Show() {
   var arr = JSON.parse(localStorage.getItem("todos"))
   if (arr) {
@@ -22,16 +22,34 @@ function Show() {
         <img src="./assets/images/icon-cross.svg" alt="Clear it" />
         </button>
         </li>`
+        if(element.isCompleted) {
+          indexes.push(counter -1);
+        }
+     
     });
+
     document.querySelector(".todos").innerHTML = list
+
+    //show tasks which were done
+    var tasks = document.querySelectorAll('li.card')
+    var tasksArr = [...tasks]
+    tasks.forEach(task => {
+      if(indexes.includes(tasksArr.indexOf(task))) {
+        task.classList.add('checked')
+        const checkbox = task.querySelector('input[type="checkbox"]');
+        if (checkbox) checkbox.checked = true;
+      }
+    })    
+
+    //delete
     var btns = document.querySelectorAll('button.clear')
     btns.forEach(btn => {
 
       btn.addEventListener('click', (e) => {
-         const mother =  btn.parentNode
+        const mother = btn.parentNode
         mother.classList.add('fall')
         let ind = [...document.querySelectorAll(".todos .card")].indexOf(mother)
-        delete_butt(ind) 
+        delete_butt(ind)
       })
     })
 
@@ -47,6 +65,17 @@ function Show() {
       })
     })
 
+    //Done task
+    var radios = document.querySelectorAll('input.cb-input')
+    radios.forEach(radio => {
+      radio.addEventListener('click', e => {
+        const mother = radio.closest('li')
+        let ind = [...document.querySelectorAll(".todos .card")].indexOf(mother)
+        const check = radio.checked
+        isCompleted(ind, check)
+        check ? mother.classList.add('checked') : mother.classList.remove('checked')
+      })
+    })
   }
 }
 
@@ -56,6 +85,12 @@ function delete_butt(index) {
   localStorage.setItem('todos', JSON.stringify(arr))
 }
 
+function isCompleted(index, state) {
+  var arr = JSON.parse(localStorage.getItem("todos"))
+  arr[index].isCompleted = state
+  localStorage.setItem('todos', JSON.stringify(arr))
+
+}
 
 function main() {
 
@@ -98,9 +133,6 @@ function main() {
       addBtn.click();
     }
   })
-  // setInterval(Show, 10)
-  //Done the task
-  // document.getElementById()
 
   //dragover
   var ul = document.querySelector(".todos")
@@ -122,20 +154,6 @@ function main() {
     }
 
   })
-  //delete task
-  // var btn = document.querySelectorAll('button')
-  // console.log('b', btn);
-  // btn.addEventListener('click', (e) => {
-  //   e.preventDefault();
-  //   for (const i of [...btn]) {
-  //     console.log(i, "  ")
-  //     if(i == e.target.index) {
-  //       delete_butt(i);
-  //     }
-  //   }
-
-  // })
-
 
 }
 
