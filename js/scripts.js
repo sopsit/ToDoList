@@ -20,24 +20,23 @@ function Show() {
         <button class="clear">
         <img src="./assets/images/icon-cross.svg" alt="Clear it" />
         </button>
-        </li> `
+        </li>`
       });
       document.querySelector(".todos").innerHTML = list
+
+      //drag
+
+      var tasks = document.querySelectorAll('li.card')
+      for (const key in tasks) {
+        tasks[key].addEventListener('dragstart', ()=>{
+          tasks[key].classList.add("dragging")
+        })
+        tasks[key].addEventListener('dragend', () => {
+          tasks[key].classList.remove("dragging")
+        } )
+      }
     }
   }
-  
-  
-  
-  {/* <li class="card" draggable="true">
-  <div class="cb-container">
-  <input type="checkbox" class="cb-input" />
-  <span class="check"></span>
-  </div>
-  <p class="item">یادگیری جاوااسکریپت</p>
-  <button class="clear">
-  <img src="./assets/images/icon-cross.svg" alt="Clear it" />
-  </button>
-</li> */}
 
 
 
@@ -76,9 +75,12 @@ function main() {
     });
     //Show the tasks
     document.getElementById('add-btn').addEventListener('click', Show)
-    setInterval(Show, 10)
+    // setInterval(Show, 10)
     //Done the task
-    document.getElementById()
+    // document.getElementById()
+
+    //dragover
+    document.querySelector(".todos")
 }
 
 document.addEventListener("DOMContentLoaded", main);

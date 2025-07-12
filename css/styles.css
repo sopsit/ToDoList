@@ -377,3 +377,8 @@ footer {
     font-size: calc(var(--base-font) * 1.5);
   }
 }
+
+
+ul.todos  li.card.dragging {
+  opacity: 0.5;
+}
