@@ -2,6 +2,7 @@ const themeSwitcherBtn = document.getElementById("theme-switcher");
 const bodyTag = document.querySelector("body");
 const addBtn = document.getElementById("add-btn");
 const todoInput = document.getElementById("addt");
+var counter = 0;
 
 function Show() {
   var arr = JSON.parse(localStorage.getItem("todos"))
@@ -17,27 +18,43 @@ function Show() {
         <span class="check"></span>
         </div>
         <p class="item">${element.item}</p>
-        <button class="clear">
+        <button id='${counter++}' class="clear">
         <img src="./assets/images/icon-cross.svg" alt="Clear it" />
         </button>
         </li>`
     });
     document.querySelector(".todos").innerHTML = list
+    var btns = document.querySelectorAll('button.clear')
+    btns.forEach(btn => {
+
+      btn.addEventListener('click', (e) => {
+         const mother =  btn.parentNode
+        mother.classList.add('fall')
+        let ind = [...document.querySelectorAll(".todos .card")].indexOf(mother)
+        delete_butt(ind) 
+      })
+    })
 
     //drag
 
     var tasks = document.querySelectorAll('li.card')
-    for (const key in tasks) {
-      tasks[key].addEventListener('dragstart', () => {
-        tasks[key].classList.add("dragging")
+    tasks.forEach(task => {
+      task.addEventListener('dragstart', () => {
+        task.classList.add("dragging")
       })
-      tasks[key].addEventListener('dragend', () => {
-        tasks[key].classList.remove("dragging")
+      task.addEventListener('dragend', () => {
+        task.classList.remove("dragging")
       })
-    }
+    })
+
   }
 }
 
+function delete_butt(index) {
+  var arr = JSON.parse(localStorage.getItem("todos"))
+  arr.splice(index, 1)
+  localStorage.setItem('todos', JSON.stringify(arr))
+}
 
 
 function main() {
@@ -74,7 +91,13 @@ function main() {
     }
   });
   //Show the tasks
-  document.getElementById('add-btn').addEventListener('click', Show)
+  addBtn.addEventListener('click', Show)
+  //add by enter key
+  todoInput.addEventListener('keydown', (e) => {
+    if (e.key == 'Enter') {
+      addBtn.click();
+    }
+  })
   // setInterval(Show, 10)
   //Done the task
   // document.getElementById()
@@ -95,10 +118,24 @@ function main() {
       var arr = JSON.parse(localStorage.getItem("todos"))
       const rem = arr.splice(curpos, 1)
       arr.splice(nextpos, 0, rem[0])
-      localStorage.setItem('todos',JSON.stringify(arr) )
+      localStorage.setItem('todos', JSON.stringify(arr))
     }
 
   })
+  //delete task
+  // var btn = document.querySelectorAll('button')
+  // console.log('b', btn);
+  // btn.addEventListener('click', (e) => {
+  //   e.preventDefault();
+  //   for (const i of [...btn]) {
+  //     console.log(i, "  ")
+  //     if(i == e.target.index) {
+  //       delete_butt(i);
+  //     }
+  //   }
+
+  // })
+
 
 }
 
