@@ -40,6 +40,10 @@ function Show() {
         if (checkbox) checkbox.checked = true;
       }
     })    
+    // lenght of tasks
+
+    var span = document.getElementById("items-left")
+    span.textContent = document.querySelectorAll('.todos .card:not(.checked)').length;
 
     //delete
     var btns = document.querySelectorAll('button.clear')
@@ -74,6 +78,7 @@ function Show() {
         const check = radio.checked
         isCompleted(ind, check)
         check ? mother.classList.add('checked') : mother.classList.remove('checked')
+       span.textContent = document.querySelectorAll('.todos .card:not(.checked)').length;
       })
     })
   }
