@@ -54,6 +54,10 @@ function Show() {
         mother.classList.add('fall')
         let ind = [...document.querySelectorAll(".todos .card")].indexOf(mother)
         delete_butt(ind)
+        setTimeout(()=> {
+          mother.remove();
+          span.textContent = document.querySelectorAll('.todos .card:not(.checked)').length;
+        }, 100)
       })
     })
 
@@ -130,6 +134,28 @@ function main() {
 
     }
   });
+      //acctive tasks
+      document.getElementById('active').addEventListener('click', () => {
+        document.getElementById('active').classList.add('on')
+        document.getElementById('all').classList.remove('on')
+        document.getElementById('completed').classList.remove('on')
+        document.querySelector('.todos').className = (`todos ${"active"}`)
+  
+      })
+      document.getElementById('all').addEventListener('click', () => {
+        document.getElementById('all').classList.add('on')
+        document.getElementById('active').classList.remove('on')
+        document.getElementById('completed').classList.remove('on')
+        document.querySelector('.todos').className = (`todos ${"all"}`)
+  
+        
+      })
+      document.getElementById('completed').addEventListener('click', () => {
+        document.getElementById('completed').classList.add('on')
+        document.getElementById('all').classList.remove('on')
+        document.getElementById('active').classList.remove('on')
+        document.querySelector('.todos').className = (`todos ${"completed"}`)
+      })
   //Show the tasks
   addBtn.addEventListener('click', Show)
   //add by enter key

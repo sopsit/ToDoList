@@ -373,6 +373,10 @@ footer {
   }
 }
 
+.todos .card.dragging {
+  opacity: 0.5;
+}
+
 
 .todos .card.fall {
   pointer-events: none;
